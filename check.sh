@@ -212,10 +212,10 @@ EOF
 function __generateQuery {
  __log_start
  cat << EOF > "${QUERY_FILE}"
-[out:csv(::id,::lat,"latitude",::lon,"longitude"; false; ",")][timeout:25];
+[out:csv(::id,::lat,"lat",::lon,"lon"; false; ",")][timeout:25];
 area[name="Colombia"][admin_level=2]->.searchArea;
 (
-  node["man_made"="survey_point"]["latitude"]["longitude"](area.searchArea);
+  node["man_made"="survey_point"]["lat"]["lon"](area.searchArea);
 );
 out body;
 >;
@@ -254,10 +254,10 @@ function __checkLongitudeLatitude {
   LON_TAG_7=$(printf "%.7f" "${LON_TAG}")
 
   if (( $(echo "${LAT_ELE} > ${LAT_TAG_7}" | bc -l) )) ; then
-   printf "Error precisión latitud:  <pre>Ele %12.7f, Tag %12.7f</pre> - https://www.openstreetmap.org/node/%d.\n" "${LAT_ELE}" "${LAT_TAG_7}" "${ID}" >> ${REPORT_CONTENT}
+   printf "Error precisión latitud:  Ele %12.7f, Tag %12.7f - https://www.openstreetmap.org/node/%d.\n" "${LAT_ELE}" "${LAT_TAG_7}" "${ID}" >> ${REPORT_CONTENT}
   fi
   if (( $(echo "${LON_ELE} > ${LON_TAG_7}" | bc -l) )) ; then
-   printf "Error precisión longitud: <pre>Ele %12.7f, Tag %12.7f</pre> - https://www.openstreetmap.org/node/%d.\n" "${LON_ELE}" "${LON_TAG_7}" "${ID}" >> ${REPORT_CONTENT}
+   printf "Error precisión longitud: Ele %12.7f, Tag %12.7f - https://www.openstreetmap.org/node/%d.\n" "${LON_ELE}" "${LON_TAG_7}" "${ID}" >> ${REPORT_CONTENT}
   fi
  done < "${SURVEY_POINTS}"
  __log_finish
